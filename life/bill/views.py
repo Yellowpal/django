@@ -8,8 +8,8 @@ from .models import BillType, Bill
 
 
 def index(request):
-    form = TypeForm()
-    return render(request, 'index.html', {'form': form})
+    bills = Bill.objects.all()
+    return render(request, 'list.html',{'bills':bills})
 
 
 def form(request,bill_id):
@@ -52,6 +52,9 @@ def add(request):
     else:
         return HttpResponse("{'status':0}")
 
+def list_type(request):
+    types = BillType.objects.all()
+    return render(request, 'list_type.html',{'types':types})
 
 def form_type(request, type_id):
     content = {}

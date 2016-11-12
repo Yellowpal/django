@@ -1,15 +1,12 @@
+{% extends 'base.html' %}
 {% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/weui/example.css' %}">
-    <title>Test</title>
+        {% block title %}
+    <title>添加</title>
+    {% endblock title %}
 </head>
 <body>
-Hello World!
-    <form>
-        {% csrf_token %}
-        {{ form }}
-    </form>
-</body>
+
 </html>

@@ -19,3 +19,6 @@ class Bill(models.Model):
     description = models.CharField(max_length=32,null=True)
     update_date = models.DateTimeField(auto_now=True)
     create_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.name

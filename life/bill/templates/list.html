@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% block title %}
+    <title>账单</title>
+    {% endblock title %}
+</head>
+
+<body>
+    {% block container %}
+        <div class="page js_show">
+            <div class="page__hd">
+                <h1 class="page__title">本月账单</h1>
+                {# <p class="page__desc">列表</p> #}
+            </div>
+            {# <div class="weui-cells__title">带说明、跳转的列表项</div> #}
+            <div class="weui-cells">
+
+                {% for bill in bills %}
+                    <a class="weui-cell weui-cell_access" href="javascript:;">
+                        <div class="weui-cell__bd">
+                            <p>{{ bill.name }}</p>
+                        </div>
+                        <div class="weui-cell__ft">{{ bill.price }}</div>
+                    </a>
+                {% endfor %}
+
+            </div>
+        </div>
+        <div class="page__bd page__bd_spacing">
+            <div class="weui-footer">
+                <p class="weui-footer__links">
+                    <a href="javascript:void(0);" class="weui-footer__link">底部链接</a>
+                </p>
+                <p class="weui-footer__text">Copyright &copy; 2008-2016 weui.io</p>
+            </div>
+        </div>
+    {% endblock container %}
+    
+    
+</body>
+
+</html>

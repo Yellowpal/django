@@ -1,0 +1,69 @@
+{% extends 'base.html' %} {% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% block title %}
+    <title>分类</title>
+    {% endblock title %}
+</head>
+
+<body>
+    {% block container %}
+    <div class="page js_show">
+        <div class="page__hd">
+            <h1 class="page__title">全部分类</h1> 
+            {#<p class="page__desc">列表</p> #}
+        </div>
+        {#<div class="weui-cells__title">带说明、跳转的列表项</div> #}
+        <div class="weui-cells">
+            {% for bill_type in types %}
+            <a class="weui-cell weui-cell_access" href="javascript:;">
+                <div class="weui-cell__bd">
+                    <p>{{ bill_type.name }}</p>
+                </div>
+                <div class="weui-cell__ft">{{ bill_type.status }}</div>
+            </a>
+            {% endfor %}
+            <!--BEGIN actionSheet-->
+            <div>
+                <div class="weui-mask" id="iosMask" style="display: none"></div>
+                <div class="weui-actionsheet" id="iosActionsheet">
+                    <div class="weui-actionsheet__menu">
+                        <div class="weui-actionsheet__cell">示例菜单</div>
+                        <div class="weui-actionsheet__cell">示例菜单</div>
+                        <div class="weui-actionsheet__cell">示例菜单</div>
+                        <div class="weui-actionsheet__cell">示例菜单</div>
+                    </div>
+                    <div class="weui-actionsheet__action">
+                        <div class="weui-actionsheet__cell" id="iosActionsheetCancel">取消</div>
+                    </div>
+                </div>
+            </div>
+            <!--END actionSheet-->
+        </div>
+    </div>
+    {% endblock container %} {% block extrajs %}
+    <script type="text/javascript">
+    // ios
+    $(function() {
+        var $iosActionsheet = $('#iosActionsheet');
+        var $iosMask = $('#iosMask');
+
+        function hideActionSheet() {
+            $iosActionsheet.removeClass('weui-actionsheet_toggle');
+            $iosMask.fadeOut(200);
+        }
+
+        $iosMask.on('click', hideActionSheet);
+        $('#iosActionsheetCancel').on('click', hideActionSheet);
+        $(".weui-cell_access").on("click", function() {
+            $iosActionsheet.addClass('weui-actionsheet_toggle');
+            $iosMask.fadeIn(200);
+        });
+    });
+    </script>
+    {% endblock extrajs %}
+</body>
+
+</html>
