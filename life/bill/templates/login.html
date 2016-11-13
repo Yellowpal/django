@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% block title %}
+    <title>登录</title>
+    {% endblock title %}
+</head>
+
+<body>
+    {% block container %}
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ bill.id }}">
+            <div class="page js_show">
+                <div class="page__hd">
+                    {# <h1 class="page__title">清单</h1> #}
+                    {# <p class="page__desc">表单输入</p> #}
+                </div>
+                <div class="page__bd">
+                    <div class="weui-cells weui-cells_form">
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd">
+                                <label class="weui-label">用户名</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" id="username" type="text" name="username" value="" placeholder="请输入用户名">
+                            </div>
+                        </div>
+						 <div class="weui-cell">
+                            <div class="weui-cell__hd">
+                                <label class="weui-label">密码</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" id="password" type="password" name="password" value="" placeholder="请输入密码">
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="weui-btn-area">
+                        <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">登录</a>
+                    </div>
+                </div>
+
+                <!--BEGIN toast-->
+                <div id="toast" style="display: none;">
+                    <div class="weui-mask_transparent"></div>
+                    <div class="weui-toast">
+                        <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+                        <p class="weui-toast__content">操作成功！</p>
+                    </div>
+                </div>
+                <!--end toast-->
+                <div id="dialogs">
+                <!--BEGIN dialog2-->
+                    <div class="js_dialog" id="iosDialog2" style="display: none;">
+                        <div class="weui-mask"></div>
+                        <div class="weui-dialog">
+                            <div class="weui-dialog__bd" id="login_msg">用户名或密码错误</div>
+                            <div class="weui-dialog__ft">
+                                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--END dialog2-->
+                </div>
+                
+            </div>
+            
+        </form>
+    {% endblock container %}
+    
+    {% block extrajs %}
+    <script type="text/javascript">
+    $(function() {
+        $('#showTooltips').on('click', function() {
+            var data = $('form').serialize();
+            var url = "{% url 'bill:login' %}";
+            $.ajax({
+                type:"POST",
+                url:url,
+                data:data,
+                beforeSend:function(){
+                    return check_form();
+                },
+                success:function(data){
+                    $('#dialogs').on('click', '.weui-dialog__btn', function(){
+                        $(this).parents('.js_dialog').fadeOut(200);
+                    });
+                    alert(data);
+                    if(data.status == 1){
+                        var $toast = $('#toast');
+
+                        if ($toast.css('display') != 'none') return;
+
+                        $toast.fadeIn(100);
+                        setTimeout(function () {
+                            $toast.fadeOut(100);
+                            window.location="/bill/";
+                        }, 2000);
+                    }else if(data.status == 0){
+                        $('#login_msg').html('账号已被注销')
+                        var $iosDialog2 = $('#iosDialog2');
+                        $iosDialog2.fadeIn(200);
+                    }else {
+                        $('#login_msg').html('用户名或密码错误')
+                        var $iosDialog2 = $('#iosDialog2');
+                        $iosDialog2.fadeIn(200);
+                    }
+                },
+            });
+        });
+    });
+
+    document.body.setAttribute('ontouchstart', '');
+
+    function check_form() {
+        if ($('#username').val() == '') {
+            alert("名称为空！");
+            return false;
+        }
+
+        //alert($('#price').val());
+
+        if ($('#password').val() == '') {
+            alert('金额为空！');
+            return false;
+        } 
+        
+		return true;
+    }
+    </script>
+    {% endblock extrajs %}
+</body>
+
+</html>

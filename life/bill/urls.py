@@ -3,8 +3,10 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
+	url(r'^login/$', views.login_site,name='login'),
+	url(r'^logout/$', views.logout_site,name='logout'),
 
-    url(r'^$', views.index,name='index'),
+	url(r'^$', views.index,name='index'),
     url(r'^form/(?P<bill_id>[0-9]*)$', views.form,name='form'),
     url(r'^add/$', views.add,name='add'),
 

@@ -1,13 +1,38 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
+from django.contrib.auth import authenticate,login,logout
 
 from .forms import TypeForm
 from .models import BillType, Bill
+
+import json
 # Create your views here.
 
 
+def login_site(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username,password=password)
+    if user is not None:
+        if user.is_active:
+            login(request,user)
+            return HttpResponse(json.dumps("{'status':1}"))
+            # return redirect('bill:index')
+        else:
+            return HttpResponse(json.dumps("{'status':0}")) #无效
+    else:
+        return HttpResponse(json.dumps("{'status':-1}")) #用户名密码错误
+
+def logout_site():
+    logout(request)
+    return redirect('bill:login')
+
+
+
 def index(request):
+    if not request.user.is_authenticated():
+        return render(request, 'login.html')
     bills = Bill.objects.all()
     return render(request, 'list.html',{'bills':bills})
 
