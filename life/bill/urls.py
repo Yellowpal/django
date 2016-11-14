@@ -13,4 +13,6 @@ urlpatterns = [
     url(r'^type/$', views.list_type,name='list_type'),
     url(r'^form/type/(?P<type_id>[0-9]*)$', views.form_type,name='form_type'),
     url(r'^add/type/$', views.add_type,name='add/type'),
+	
+	url(r'^test$',views.test,name='test'),
 ]

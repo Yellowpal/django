@@ -14,7 +14,7 @@
         <form action="" method="post">
             {% csrf_token %}
             <input type="hidden" name="id" value="{{ bill_type.id }}">
-            <div class="page js_show">
+
                 <div class="page__hd">
                     <h1 class="page__title">分类</h1>
                     {# <p class="page__desc">表单输入</p> #}
@@ -80,7 +80,7 @@
                 <div class="page__ft">
                     <a href="javascript:home()"><img src="./images/icon_footer_link.png"></a>
                 </div>
-            </div>
+           
             
         </form>
     {% endblock container %}
@@ -106,6 +106,7 @@
 					$toast.fadeIn(100);
 					setTimeout(function () {
 						$toast.fadeOut(100);
+						window.location="{% url 'bill:list_type' %}";
 					}, 2000);
 				
 				},

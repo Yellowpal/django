@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.contrib.auth import authenticate,login,logout
 
 from .forms import TypeForm
 from .models import BillType, Bill
 
 import json
+
 # Create your views here.
 
+def test(request):
+    return HttpResponse(json.dumps({'status':-1})) #用户名密码错误
+	#return HttpResponse({'status':-1}) #用户名密码错误
 
 def login_site(request):
     username = request.POST['username']
@@ -17,12 +21,12 @@ def login_site(request):
     if user is not None:
         if user.is_active:
             login(request,user)
-            return HttpResponse(json.dumps("{'status':1}"))
-            # return redirect('bill:index')
+            # return HttpResponse(simplejson.dumps({'status':1}))
+            return JsonResponse({'status':1})
         else:
-            return HttpResponse(json.dumps("{'status':0}")) #无效
+            return JsonResponse({'status':0}) #无效
     else:
-        return HttpResponse(json.dumps("{'status':-1}")) #用户名密码错误
+        return JsonResponse({'status':-1}) #用户名密码错误
 
 def logout_site():
     logout(request)
@@ -63,7 +67,7 @@ def add(request):
         bill.description = description
         bill.bill_type = BillType.objects.get(pk=int(type_id))
         bill.save()
-        return HttpResponse("{'status':1}")
+        return HttpResponse({'status':1})
 
     elif type_id != '' and name != '' and price != '' and int(type_id) > 0 and float(price) > 0:
         bill = Bill()
@@ -73,9 +77,9 @@ def add(request):
         bill.description = description
         bill.bill_type = BillType.objects.get(pk=int(type_id))
         bill.save()
-        return HttpResponse("{'status':1}")
+        return HttpResponse({'status':1})
     else:
-        return HttpResponse("{'status':0}")
+        return HttpResponse({'status':0})
 
 def list_type(request):
     types = BillType.objects.all()
@@ -99,13 +103,13 @@ def add_type(request):
         bill_type.name = name
         bill_type.status = status
         bill_type.save()
-        return HttpResponse("{'status':1}")
+        return HttpResponse({'status':1})
 
     elif name != '' and status != '':  # add
         bill_type = BillType()
         bill_type.name = name
         bill_type.status = status
         bill_type.save()
-        return HttpResponse("{'status':1}")
+        return HttpResponse({'status':1})
     else:
-        return HttpResponse("{'status':0}")
+        return HttpResponse({'status':0})

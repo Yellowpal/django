@@ -11,7 +11,7 @@
 
 <body>
     {% block container %}
-        <div class="page js_show">
+        
             <div class="page__hd">
                 <h1 class="page__title">本月账单</h1>
                 {# <p class="page__desc">列表</p> #}
@@ -27,19 +27,48 @@
                         <div class="weui-cell__ft">{{ bill.price }}</div>
                     </a>
                 {% endfor %}
+				<!--BEGIN actionSheet-->
+				<div>
+					<div class="weui-mask" id="iosMask" style="display: none"></div>
+					<div class="weui-actionsheet" id="iosActionsheet">
+						<div class="weui-actionsheet__menu">
+							<div class="weui-actionsheet__cell">示例菜单</div>
+							<div class="weui-actionsheet__cell">示例菜单</div>
+							<div class="weui-actionsheet__cell">示例菜单</div>
+							<div class="weui-actionsheet__cell">示例菜单</div>
+						</div>
+						<div class="weui-actionsheet__action">
+							<div class="weui-actionsheet__cell" id="iosActionsheetCancel">取消</div>
+						</div>
+					</div>
+				</div>
+				<!--END actionSheet-->
 
             </div>
-        </div>
-        <div class="page__bd page__bd_spacing">
-            <div class="weui-footer">
-                <p class="weui-footer__links">
-                    <a href="javascript:void(0);" class="weui-footer__link">底部链接</a>
-                </p>
-                <p class="weui-footer__text">Copyright &copy; 2008-2016 weui.io</p>
-            </div>
-        </div>
+        
+        
     {% endblock container %}
-    
+    {% block extrajs %}
+    <script type="text/javascript">
+    // ios
+    $(function() {
+        var $iosActionsheet = $('#iosActionsheet');
+        var $iosMask = $('#iosMask');
+
+        function hideActionSheet() {
+            $iosActionsheet.removeClass('weui-actionsheet_toggle');
+            $iosMask.fadeOut(200);
+        }
+
+        $iosMask.on('click', hideActionSheet);
+        $('#iosActionsheetCancel').on('click', hideActionSheet);
+        $(".weui-cell_access").on("click", function() {
+            $iosActionsheet.addClass('weui-actionsheet_toggle');
+            $iosMask.fadeIn(200);
+        });
+    });
+    </script>
+    {% endblock extrajs %}
     
 </body>
 

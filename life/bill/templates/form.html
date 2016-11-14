@@ -14,7 +14,6 @@
         <form action="" method="post">
             {% csrf_token %}
             <input type="hidden" name="id" value="{{ bill.id }}">
-            <div class="page js_show">
                 <div class="page__hd">
                     <h1 class="page__title">清单</h1>
                     {# <p class="page__desc">表单输入</p> #}
@@ -89,7 +88,7 @@
                 <!--end toast-->
                 
                 
-            </div>
+            
             
         </form>
     {% endblock container %}
@@ -115,6 +114,7 @@
                     $toast.fadeIn(100);
                     setTimeout(function () {
                         $toast.fadeOut(100);
+						window.location="{% url 'bill:index' %}";
                     }, 2000);
                 
                 },

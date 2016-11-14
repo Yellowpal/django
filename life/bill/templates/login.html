@@ -14,7 +14,7 @@
         <form action="" method="post">
             {% csrf_token %}
             <input type="hidden" name="id" value="{{ bill.id }}">
-            <div class="page js_show">
+
                 <div class="page__hd">
                     {# <h1 class="page__title">清单</h1> #}
                     {# <p class="page__desc">表单输入</p> #}
@@ -50,7 +50,7 @@
                     <div class="weui-mask_transparent"></div>
                     <div class="weui-toast">
                         <i class="weui-icon-success-no-circle weui-icon_toast"></i>
-                        <p class="weui-toast__content">操作成功！</p>
+                        <p class="weui-toast__content">登录成功！</p>
                     </div>
                 </div>
                 <!--end toast-->
@@ -68,7 +68,7 @@
                     <!--END dialog2-->
                 </div>
                 
-            </div>
+            
             
         </form>
     {% endblock container %}
@@ -90,7 +90,7 @@
                     $('#dialogs').on('click', '.weui-dialog__btn', function(){
                         $(this).parents('.js_dialog').fadeOut(200);
                     });
-                    alert(data);
+                    
                     if(data.status == 1){
                         var $toast = $('#toast');
 
@@ -99,7 +99,7 @@
                         $toast.fadeIn(100);
                         setTimeout(function () {
                             $toast.fadeOut(100);
-                            window.location="/bill/";
+                            window.location="{% url 'bill:index' %}";
                         }, 2000);
                     }else if(data.status == 0){
                         $('#login_msg').html('账号已被注销')
